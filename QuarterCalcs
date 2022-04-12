@@ -14,6 +14,20 @@ Q1_2 <- as.Date("2023-04-05")
 
 library(lubridate)
 
+# Find what quarter it is
+quarter(tdy %m-% months(1))
+# [1] 1
+quarter(Q1 %m-% months(1))
+# [1] 1
+quarter(Q2 %m-% months(1))
+# [1] 2
+quarter(Q3 %m-% months(1))
+# [1] 3
+quarter(Q4 %m-% months(1))
+# [1] 4
+quarter(Q1_2 %m-% months(1))
+# [1] 1
+
 # End Of This Quarter - assumes end dates are exclusive
 EOTQ <- floor_date(tdy, unit = "quarter")
 # [1] "2022-04-01"
@@ -64,8 +78,19 @@ YTD1_2 <- floor_date(Q1_2 %m-% months(1), unit = "year") - days(1)
 # [1] "2023-04-01"
 
 
-# End Of Last Quarter
-
+# End Of Last Quarter (exclusive)
+EOLQ <- EOTQ %m-% months(3) - days(1)
+# [1] "2021-12-31"
+EOLQ1 <- EOTQ1 %m-% months(3) - days(1)
+# [1] "2021-12-31"
+EOLQ2 <- EOTQ2 %m-% months(3) - days(1)
+# [1] "2022-03-31"
+EOLQ3 <- EOTQ3 %m-% months(3) - days(1)
+# [1] "2022-06-30"
+EOLQ4 <- EOTQ4 %m-% months(3) - days(1)
+# [1] "2022-09-30"
+EOLQ1_2 <- EOTQ1_2 %m-% months(3) - days(1)
+# [1] "2022-12-31"
 
 
 # Number of weeks to date always maps from {Q1, Q2, Q3, Q4} -> {13, 26, 39, 52}
@@ -81,7 +106,3 @@ wks_to_date4 <- as.integer(difftime(EOTQ4, YTD4, units = "weeks"))
 # [1] 52
 wks_to_date1_2 <- as.integer(difftime(EOTQ1_2, YTD1_2, units = "weeks"))
 # [1] 13
-
-
-
-
