@@ -1,0 +1,87 @@
+################################################################################
+# Author: Angyalka Valcsics
+# How to calculate quarterly stats automatically based on system date i.e. 
+# date the program is run. Imagine a rmd file that outputs a report and is
+# scheduled to run automatically at the end of each quarter.
+################################################################################
+tdy <- Sys.Date()
+# test cases
+Q1 <- as.Date("2022-04-06")
+Q2 <- as.Date("2022-07-02")
+Q3 <- as.Date("2022-10-01")
+Q4 <- as.Date("2023-01-03")
+Q1_2 <- as.Date("2023-04-05")
+
+library(lubridate)
+
+# End Of This Quarter - assumes end dates are exclusive
+EOTQ <- floor_date(tdy, unit = "quarter")
+# [1] "2022-04-01"
+EOTQ1 <- floor_date(Q1, unit = "quarter")
+# [1] "2022-04-01"
+EOTQ2 <- floor_date(Q2, unit = "quarter")
+# [1] "2022-07-01"
+EOTQ3 <- floor_date(Q3, unit = "quarter")
+# [1] "2022-10-01"
+EOTQ4 <- floor_date(Q4, unit = "quarter")
+# [1] "2023-01-01"
+EOTQ1_2 <- floor_date(Q1_2, unit = "quarter")
+# [1] "2023-04-01"
+
+# End Of This Quarter 1 year ago
+# this should work for leap yrs  too
+EOTQ1yr <- EOTQ %m-% months(12)
+# [1] "2021-04-01"
+EOTQ1yr1 <- EOTQ1 %m-% months(12)
+# [1] "2021-04-01"
+EOTQ1yr2 <- EOTQ2 %m-% months(12)
+# [1] "2021-07-01"
+EOTQ1yr3 <- EOTQ3 %m-% months(12)
+# [1] "2021-10-01"
+EOTQ1yr4 <- EOTQ4 %m-% months(12)
+# [1] "2022-01-01"
+EOTQ1yr1_2 <- EOTQ1_2 %m-% months(12)
+# [1] "2022-04-01"
+# additional test case:
+leapyr <- as.Date('2016/02/29')
+leapyr %m-% months(12)
+# [1] "2015-02-28"
+
+# YTD - assumes exclusive, don't subtract a day otherwise
+# need a homogeneous solution for the case of Q4 reporting
+# I chose to just subtract a month from the input date
+YTD <- floor_date(tdy %m-% months(1), unit = "year") - days(1)
+# [1] "2021-12-31"
+YTD1 <- floor_date(Q1 %m-% months(1), unit = "year") - days(1)
+# [1] "2021-12-31"
+YTD2 <- floor_date(Q2 %m-% months(1), unit = "year") - days(1)
+# [1] "2021-12-31"
+YTD3 <- floor_date(Q3 %m-% months(1), unit = "year") - days(1)
+# [1] "2021-12-31"
+YTD4 <- floor_date(Q4 %m-% months(1), unit = "year") - days(1)
+# [1] "2022-12-31"
+YTD1_2 <- floor_date(Q1_2 %m-% months(1), unit = "year") - days(1)
+# [1] "2023-04-01"
+
+
+# End Of Last Quarter
+
+
+
+# Number of weeks to date always maps from {Q1, Q2, Q3, Q4} -> {13, 26, 39, 52}
+wks_to_date <- as.integer(difftime(EOTQ, YTD, units = "weeks"))
+# [1] 13
+vwks_to_date1 <- as.integer(difftime(EOTQ1, YTD1, units = "weeks"))
+# [1] 13
+wks_to_date2 <- as.integer(difftime(EOTQ2, YTD2, units = "weeks"))
+# [1] 26
+wks_to_date3 <- as.integer(difftime(EOTQ3, YTD3, units = "weeks"))
+# [1] 39
+wks_to_date4 <- as.integer(difftime(EOTQ4, YTD4, units = "weeks"))
+# [1] 52
+wks_to_date1_2 <- as.integer(difftime(EOTQ1_2, YTD1_2, units = "weeks"))
+# [1] 13
+
+
+
+
