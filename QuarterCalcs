@@ -75,7 +75,7 @@ YTD3 <- floor_date(Q3 %m-% months(1), unit = "year") - days(1)
 YTD4 <- floor_date(Q4 %m-% months(1), unit = "year") - days(1)
 # [1] "2022-12-31"
 YTD1_2 <- floor_date(Q1_2 %m-% months(1), unit = "year") - days(1)
-# [1] "2023-04-01"
+# [1] "2022-12-31"
 
 
 # End Of Last Quarter (exclusive)
